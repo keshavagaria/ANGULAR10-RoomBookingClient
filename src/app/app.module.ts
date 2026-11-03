@@ -7,6 +7,9 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { RouterModule, Routes } from '@angular/router';
 import { UsersComponent } from './admin/users/users.component';
 import { RoomsComponent } from './admin/rooms/rooms.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { RoomDetailComponent } from './admin/rooms/room-detail/room-detail.component';
+import { UserDetailComponent } from './admin/users/user-detail/user-detail.component';
 
 
 
@@ -14,7 +17,7 @@ const routes: Routes = [
   {path: 'admin/users', component: UsersComponent},
   {path: 'admin/rooms', component: RoomsComponent},
   {path: '', component: CalendarComponent},
- // {path: '404', component: PageNotFoundComponent},
+  {path: '404', component: PageNotFoundComponent},
   {path: '**', redirectTo: '/404'}
 ];
 
@@ -25,7 +28,10 @@ const routes: Routes = [
     MenuComponent,
     CalendarComponent,
     UsersComponent,
-    RoomsComponent
+    RoomsComponent,
+    PageNotFoundComponent,
+    RoomDetailComponent,
+    UserDetailComponent
   ],
   imports: [
     BrowserModule,

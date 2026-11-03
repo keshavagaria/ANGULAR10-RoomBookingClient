@@ -1,12 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Layout, LayoutCapacity, Room } from '../models/Room';
+import { User } from '../models/User';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  rooms : Array<Room>;
+ private rooms : Array<Room>;
+ private users : Array<User>;
+
+ getRooms() : Observable<Array<Room>> {
+     return of(this.rooms);
+ }
+
+ getUsers() : Observable<Array<User>> {
+     return of(this.users);
+ }
+
 
   constructor() {
      this.rooms = new Array<Room>();
@@ -39,5 +51,20 @@ export class DataService {
 
      this.rooms.push(room1);
      this.rooms.push(room2);
+
+      this.users = new Array<User>();
+
+    const user1 = new User();
+    user1.id = 1;
+    user1.name = 'Matt';
+    const user2 = new User();
+    user2.id = 2;
+    user2.name = 'Diana';
+    const user3 = new User();
+    user3.id = 3;
+    user3.name = 'Suzanne';
+    this.users.push(user1);
+    this.users.push(user2);
+    this.users.push(user3);
  }
 }
