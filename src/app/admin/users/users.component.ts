@@ -10,8 +10,10 @@ import { DataService } from 'src/app/service/data.service';
 })
 export class UsersComponent implements OnInit {
 
+
   users: Array<User> | undefined;
   selectedUser: User | undefined;
+  action: string;
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
@@ -27,9 +29,11 @@ export class UsersComponent implements OnInit {
  //   console.log("UsersComponent ", this.users);
       this.route.queryParams.subscribe(params => {
       const id = params['id'];
+      this.action = params['action'];
       if(id) {
  //       this.setRoom(+id);
         this.selectedUser = this.users.find(user => user.id === +id);
+
       }
     }
   );
@@ -37,7 +41,13 @@ export class UsersComponent implements OnInit {
   }
 
   setUser(id: number) {
-    this.router.navigate(['admin', 'users'], { queryParams: { id: id } });
+    this.router.navigate(['admin', 'users'], { queryParams: { id: id, action : 'view'} });
   }
 
+  addUser() {
+    this.selectedUser = new User();
+    this.router.navigate(['admin', 'users'], { queryParams: { action : 'add'} });
+    console.log(this.action)
+
+  }
 }
