@@ -32,24 +32,29 @@ export class RoomEditComponent implements OnInit {
 
   ngOnInit() {
 
-    this.roomForm = this.formBuilder.group({
-      roomName: [this.room.name, Validators.required],
-      location: [this.room.location, [Validators.required, Validators.minLength(3)]],
-    });
+      this.initiliazeForm();
 
-    // this.roomForm.patchValue({
-    //   roomName: this.room.name,
-    //   location: this.room.location
-    // });
-
-    for(const layout of this.layouts) {
-  //    this.roomForm.addControl(`layout${layout}`, new FormControl(`layout${layout}`));
-      const layoutCapacity = this.room.capacities.find(capacity => capacity.layout === Layout[layout]);
-      const initialCapacity = layoutCapacity ? layoutCapacity.capacity : 0;
-      this.roomForm.addControl(`layout${layout}`, this.formBuilder.control(initialCapacity));
-}
   }
 
+  initiliazeForm(){
+
+        this.roomForm = this.formBuilder.group({
+            roomName: [this.room.name, Validators.required],
+            location: [this.room.location, [Validators.required, Validators.minLength(3)]],
+          });
+
+          // this.roomForm.patchValue({
+          //   roomName: this.room.name,
+          //   location: this.room.location
+          // });
+
+          for(const layout of this.layouts) {
+        //    this.roomForm.addControl(`layout${layout}`, new FormControl(`layout${layout}`));
+            const layoutCapacity = this.room.capacities.find(capacity => capacity.layout === Layout[layout]);
+            const initialCapacity = layoutCapacity ? layoutCapacity.capacity : 0;
+            this.roomForm.addControl(`layout${layout}`, this.formBuilder.control(initialCapacity));
+      }
+    }
   onSubmit() {
     this.room.name = this.roomForm.controls['roomName'].value;
     this.room.location = this.roomForm.value['location'];

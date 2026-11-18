@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormResetService } from 'src/app/form-reset.service';
 import { Room } from 'src/app/models/Room';
 import { DataService } from 'src/app/service/data.service';
 
@@ -16,7 +17,8 @@ export class RoomsComponent implements OnInit {
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
-              private router: Router) {}
+              private router: Router,
+              private formResetService: FormResetService) {}
 
   ngOnInit() {
  //   this.rooms = this.dataService.getRooms();
