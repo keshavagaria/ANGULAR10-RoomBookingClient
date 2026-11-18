@@ -13,19 +13,41 @@ export class RoomsComponent implements OnInit {
   rooms: Array<Room> = [];
   selectedRoom: Room | undefined;
   action: string | undefined;
+  loading: boolean = true;
+  message: string = 'Please wait... Loading rooms...';
+  reloadAttempts: number = 0;
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
               private router: Router) {}
 
-  ngOnInit() {
- //   this.rooms = this.dataService.getRooms();
-    this.dataService.getRooms().subscribe(next => {
-      this.rooms = next;
-    }
-  );
-    // console.log("RoomsComponent ",this.rooms);
-    this.route.queryParams.subscribe(params => {
+   loadData(){
+      this.dataService.getRooms().subscribe(next => {
+           this.rooms = next;
+           this.loading = false;
+           this.processRoom();
+         },
+         error => {
+           if(error.status === 402) {
+             this.message = 'Unauthorized. Please log in.';
+           } else {
+              this.reloadAttempts++;
+              if(this.reloadAttempts <= 10) {
+                this.message = 'Error loading rooms. Retrying...';
+                this.loadData();
+              }else{
+                this.message = 'Error loading rooms. Please Contact Support.';
+              }
+
+           }
+
+         }
+       );
+
+     }
+
+     processRoom() {
+      this.route.queryParams.subscribe(params => {
       const id = params['id'];
       this.action = params['action'];
       if(id) {
@@ -34,7 +56,10 @@ export class RoomsComponent implements OnInit {
       }
     }
   );
+}
 
+  ngOnInit() {
+      this.loadData();
   }
 
   setRoom(id: number) {

@@ -14,6 +14,8 @@ export class UsersComponent implements OnInit {
   users: Array<User> | undefined;
   selectedUser: User | undefined;
   action: string;
+  loading: boolean = true;
+  message: string = 'Please wait... Loading users...';
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
@@ -24,18 +26,22 @@ export class UsersComponent implements OnInit {
  //   this.users = this.dataService.getUsers();
     this.dataService.getUsers().subscribe(next => {
       this.users = next;
-    }
-  );
- //   console.log("UsersComponent ", this.users);
-      this.route.queryParams.subscribe(params => {
+      this.loading = false;
+        this.route.queryParams.subscribe(params => {
       const id = params['id'];
       this.action = params['action'];
       if(id) {
- //       this.setRoom(+id);
+
         this.selectedUser = this.users.find(user => user.id === +id);
 
       }
     }
+  );
+    },
+    error => {
+        this.message = 'Error loading users. Please Contact Support.';
+      }
+
   );
 
   }
